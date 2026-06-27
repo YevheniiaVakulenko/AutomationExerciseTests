@@ -46,10 +46,13 @@ namespace AutomationExerciseTests.Pages
             }
             catch (WebDriverTimeoutException)
             {
-                // Banner didn't appear - nothing to do, this is a valid outcome
             }
         }
-        ///html/body/div/div[2]/div[2]/div[2]/div[2]/button[1]
-        /////body > div > div.fc-dialog-container > div.fc-dialog.fc-choice-dialog > div.fc-footer-buttons-container > div.fc-footer-buttons > button.fc-button.fc-cta-consent.fc-primary-button
+        protected decimal ParsePrice(string rawText)
+        {
+            string cleaned = rawText.Replace("Rs.", "").Trim();
+            return decimal.Parse(cleaned);
+        }
+        
     }
 }
