@@ -1,4 +1,4 @@
-﻿namespace AutomationExerciseTests.Tests
+﻿namespace AutomationExerciseTests.Tests.UI
 {
     public class ProductTests : BaseUITest
     {

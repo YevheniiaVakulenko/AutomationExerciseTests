@@ -1,4 +1,4 @@
-﻿namespace AutomationExerciseTests.Tests
+﻿namespace AutomationExerciseTests.Tests.UI
 {
     public class CartTests : BaseUITest
     {
@@ -7,7 +7,7 @@
         public void AddMultipleProducts_CartTotal_ShouldBeCorrect()
         {
             var productsPage = homePage.ClickProductsLink();
-            
+
             productsPage.AddProductToCartById("1");
             decimal price1 = productsPage.GetProductPriceById("1");
 
