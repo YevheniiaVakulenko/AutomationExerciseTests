@@ -1,7 +1,7 @@
 using AutomationExerciseTests.Helpers;
 using AutomationExerciseTests.Pages;
 
-namespace AutomationExerciseTests.Tests
+namespace AutomationExerciseTests.Tests.UI
 {
     public class LoginTests : BaseUITest
     {
@@ -37,7 +37,7 @@ namespace AutomationExerciseTests.Tests
         [Test]
         public void Register_WithAlreadyUsedEmail_ShouldShowError()
         {
-            
+
             var loginPage = homePage.ClickSignupLogin();
             loginPage.SignUp("Duplicate Attempt", user.Email);
 

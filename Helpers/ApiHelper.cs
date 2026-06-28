@@ -36,13 +36,23 @@ namespace AutomationExerciseTests.Helpers
             return response;
         }
 
-        public static void DeleteAccountViaApi(UserTestData user)
+        public static string DeleteAccountViaApi(UserTestData user)
         {
-            var request = new RestRequest("/api/deleteAccount", Method.Delete);
-            request.AddParameter("email", user.Email);
-            request.AddParameter("password", user.Password);
+            //RestSharp does not parse query parameters for DELETE /api/deleteAccounts
+            using var httpClient = new HttpClient();
+            var content = new MultipartFormDataContent
+            {
+                { new StringContent(user.Email), "email" },
+                { new StringContent(user.Password), "password" }
+            };
 
-            client.Execute(request);
+            var request = new HttpRequestMessage(HttpMethod.Delete, "https://automationexercise.com/api/deleteAccount")
+            {
+                Content = content
+            };
+
+            var response = httpClient.Send(request);
+            return response.Content.ReadAsStringAsync().Result;
         }
     }
 }
