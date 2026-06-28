@@ -1,12 +1,6 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using AutomationExerciseTests.Helpers;
 
 namespace AutomationExerciseTests.Pages
 {
@@ -20,6 +14,7 @@ namespace AutomationExerciseTests.Pages
         private readonly By yearsDropdown = By.Id("years");
         private readonly By firstNameInput = By.Id("first_name");
         private readonly By lastNameInput = By.Id("last_name");
+        private readonly By companyInput = By.Id("company");
         private readonly By addressInput = By.Id("address1");
         private readonly By countryDropdown = By.Id("country");
         private readonly By stateInput = By.Id("state");
@@ -31,35 +26,36 @@ namespace AutomationExerciseTests.Pages
 
         public RegisterPage(IWebDriver driver) : base(driver) { }
 
-        public void FillAccountDetails(string password, string firstName, string lastName,
-            string address, string state, string city, string zipcode, string mobileNumber,
-            string title = "Mrs", string country = "India",
-            string day = "10", string month = "January", string year = "1995")
+        public void FillAccountDetails(UserTestData user)
         {
-            WaitForVisible(passwordInput).SendKeys(password);
+            WaitForVisible(passwordInput).SendKeys(user.Password);
 
-            if (title == "Mr")
+            if (user.Title == "Mr")
                 driver.FindElement(mrRadio).Click();
             else
                 driver.FindElement(mrsRadio).Click();
 
-            new SelectElement(driver.FindElement(daysDropdown)).SelectByValue(day);
-            new SelectElement(driver.FindElement(monthsDropdown)).SelectByText(month);
-            new SelectElement(driver.FindElement(yearsDropdown)).SelectByValue(year);
+            new SelectElement(driver.FindElement(daysDropdown)).SelectByValue(user.Birth_day);
+            new SelectElement(driver.FindElement(monthsDropdown)).SelectByValue(user.Birth_month);
+            new SelectElement(driver.FindElement(yearsDropdown)).SelectByValue(user.Birth_year);
 
-            driver.FindElement(firstNameInput).SendKeys(firstName);
-            driver.FindElement(lastNameInput).SendKeys(lastName);
-            driver.FindElement(addressInput).SendKeys(address);
-            new SelectElement(driver.FindElement(countryDropdown)).SelectByText(country);
-            driver.FindElement(stateInput).SendKeys(state);
-            driver.FindElement(cityInput).SendKeys(city);
-            driver.FindElement(zipcodeInput).SendKeys(zipcode);
-            driver.FindElement(mobileNumberInput).SendKeys(mobileNumber);
+            driver.FindElement(firstNameInput).SendKeys(user.FirstName);
+            driver.FindElement(lastNameInput).SendKeys(user.LastName);
+            driver.FindElement(companyInput).SendKeys(user.Company);
+            driver.FindElement(addressInput).SendKeys(user.Address);
+            new SelectElement(driver.FindElement(countryDropdown)).SelectByText(user.Country);
+            driver.FindElement(stateInput).SendKeys(user.State);
+            driver.FindElement(cityInput).SendKeys(user.City);
+            driver.FindElement(zipcodeInput).SendKeys(user.Zipcode);
+            driver.FindElement(mobileNumberInput).SendKeys(user.MobileNumber);
         }
 
         public void SubmitAccountCreation()
         {
-            WaitForEnabled(createAccountButton).Click();
+            var createAccountBtn = driver.FindElement(createAccountButton);
+            WaitForEnabled(createAccountButton);
+            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", createAccountBtn);
+            ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", createAccountBtn);
         }
 
         public bool IsAccountCreatedConfirmationDisplayed()

@@ -1,32 +1,7 @@
-﻿using AutomationExerciseTests.Pages;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebDriverManager.DriverConfigs.Impl;
-using WebDriverManager.Helpers;
-using WebDriverManager;
-
-namespace AutomationExerciseTests.Tests
+﻿namespace AutomationExerciseTests.Tests
 {
-    public class CartTests
+    public class CartTests : BaseUITest
     {
-        private IWebDriver driver;
-        private HomePage homePage;
-
-        [SetUp]
-        public void Setup()
-        {
-            new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl("https://automationexercise.com");
-            homePage = new HomePage(driver);
-            homePage.AcceptCookiesIfPresent();
-        }
         // TC-09
         [Test]
         public void AddMultipleProducts_CartTotal_ShouldBeCorrect()
@@ -73,11 +48,6 @@ namespace AutomationExerciseTests.Tests
             cartPage.ClickProceedToCheckout();
 
             Assert.That(cartPage.IsLoginPopupDisplayed(), Is.True);
-        }
-        [TearDown]
-        public void Teardown()
-        {
-            driver?.Dispose();
         }
     }
 }
